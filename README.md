@@ -278,6 +278,9 @@ This repository includes `render.yaml` for deploying the FastAPI backend on Rend
 
 Required Render environment variable:
 
+https://projectbanking-api.onrender.com
+https://projectbanking-api.onrender.com/health
+
 ```env
 GEMINI_API_KEY=your_real_gemini_key
 ```

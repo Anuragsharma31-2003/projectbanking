@@ -20,6 +20,9 @@ st.set_page_config(
 )
 
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+HEALTH_TIMEOUT = 8
+CHAT_TIMEOUT = 180
+UPLOAD_TIMEOUT = 180
 
 # ── Global CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -518,7 +521,7 @@ init_session()
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def get_health():
     try:
-        r = requests.get(f"{BACKEND_URL}/health", timeout=4)
+        r = requests.get(f"{BACKEND_URL}/health", timeout=HEALTH_TIMEOUT)
         if r.status_code == 200:
             return r.json()
     except Exception:
@@ -537,11 +540,20 @@ def send_message(user_msg: str):
         "history":    history_payload,
     }
     try:
-        r = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=60)
+        r = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=CHAT_TIMEOUT)
         if r.status_code == 200:
             return r.json()
         else:
             return {"answer": f"⚠ API error {r.status_code}: {r.text}", "sources": []}
+    except requests.exceptions.Timeout:
+        return {
+            "answer": (
+                "The backend is taking longer than expected. "
+                "If this is the first request after inactivity, Render may still be waking up. "
+                "Please try again in a minute."
+            ),
+            "sources": [],
+        }
     except requests.exceptions.ConnectionError:
         return {"answer": "⚠ Cannot reach backend. Is the API server running?", "sources": []}
     except Exception as e:
@@ -553,7 +565,7 @@ def upload_doc(file):
         r = requests.post(
             f"{BACKEND_URL}/upload",
             files={"file": (file.name, file.getvalue(), file.type)},
-            timeout=60,
+            timeout=UPLOAD_TIMEOUT,
         )
         return r.json() if r.status_code == 200 else None
     except Exception:
@@ -562,7 +574,7 @@ def upload_doc(file):
 
 def clear_session_api():
     try:
-        requests.delete(f"{BACKEND_URL}/session/{st.session_state.session_id}", timeout=4)
+        requests.delete(f"{BACKEND_URL}/session/{st.session_state.session_id}", timeout=HEALTH_TIMEOUT)
     except Exception:
         pass
 

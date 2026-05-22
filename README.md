@@ -285,3 +285,23 @@ After deploy, open:
 https://your-render-service.onrender.com/health
 https://your-render-service.onrender.com/docs
 ```
+
+### Streamlit Frontend
+
+Deploy `frontend/app.py` on Streamlit Community Cloud and point it at the Render backend.
+
+Streamlit app settings:
+
+```text
+Repository: Anuragsharma31-2003/projectbanking
+Branch: main
+Main file path: frontend/app.py
+```
+
+Streamlit secrets:
+
+```toml
+BACKEND_URL = "https://your-render-service.onrender.com"
+```
+
+Only set `GEMINI_API_KEY` on Render. The Streamlit frontend should only know the backend URL.

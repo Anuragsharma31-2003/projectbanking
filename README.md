@@ -1,256 +1,114 @@
-# FinBot — AI Banking Support Chatbot
+# FinBot Banking RAG Chatbot
 
-FinBot is a Retrieval-Augmented Generation (RAG) powered AI banking assistant built using FastAPI, ChromaDB, Sentence Transformers, Gemini API, and Streamlit.
+FinBot is an AI banking assistant built with Retrieval-Augmented Generation (RAG). It answers banking questions from uploaded or preloaded documents using semantic search, ChromaDB, Sentence Transformers, a FastAPI backend, Gemini, and a Streamlit frontend.
 
-The chatbot answers banking-related queries using real banking documents such as:
-- RBI guidelines
-- Loan policy documents
-- Credit card terms & conditions
-- Banking FAQs
-- Digital banking documentation
+## Live Demo
 
----
+- Frontend: https://projectbankinganurag.streamlit.app/
+- Backend API: https://projectbanking-api.onrender.com
+- Backend Health Check: https://projectbanking-api.onrender.com/health
+- Backend Swagger Docs: https://projectbanking-api.onrender.com/docs
+- GitHub Repository: https://github.com/Anuragsharma31-2003/projectbanking
 
 ![Project Screenshot](image.png)
 
+## Features
 
-# Features
+- Banking-focused RAG chatbot
+- PDF, TXT, and Markdown document ingestion
+- ChromaDB vector database
+- Sentence Transformers embeddings with `all-MiniLM-L6-v2`
+- Cross-encoder reranking for better retrieval quality
+- Gemini-powered response generation
+- FastAPI backend with Swagger docs
+- Streamlit frontend
+- Source attribution for retrieved chunks
+- Session-based conversational memory
+- Runtime document upload support
 
-- RAG (Retrieval-Augmented Generation)
-- ChromaDB Vector Database
-- Semantic Search
-- PDF/TXT Document Ingestion
-- Gemini 1.5 Flash Integration
-- Session-based Conversational Memory
-- FastAPI Backend
-- Streamlit Frontend
-- Source Attribution
-- Upload New Documents Dynamically
-- Banking-focused AI Assistant
+## Tech Stack
 
----
+| Layer | Tools |
+| --- | --- |
+| Frontend | Streamlit, Requests |
+| Backend | FastAPI, Uvicorn, Pydantic |
+| RAG | LangChain text splitter, ChromaDB |
+| Embeddings | Sentence Transformers, PyTorch |
+| LLM | Google Gemini API |
+| Deployment | Streamlit Community Cloud, Render |
 
-# Tech Stack
-
-## Backend
-- FastAPI
-- Uvicorn
-- LangChain
-- ChromaDB
-- Sentence Transformers
-- Google Gemini API
-
-## Frontend
-- Streamlit
-
-## Embedding Model
-- all-MiniLM-L6-v2
-
-## Vector Database
-- ChromaDB
-
----
-
-# Project Structure
+## Architecture
 
 ```text
-banking-chatbot/
-│
+Banking PDFs / TXT / MD
+        |
+        v
+Document ingestion
+        |
+        v
+Chunking + embeddings
+        |
+        v
+ChromaDB vector store
+        |
+        v
+Semantic retrieval + reranking
+        |
+        v
+Gemini response generation
+        |
+        v
+Streamlit chat UI
+```
+
+## Project Structure
+
+```text
+banking-rag-chatbot/
 ├── backend/
 │   ├── __init__.py
 │   ├── config.py
+│   ├── ingest.py
 │   ├── main.py
 │   ├── models.py
 │   ├── rag_pipeline.py
-│   ├── ingest.py
 │   └── requirements.txt
-│
+├── data/
+│   └── sample banking documents
 ├── frontend/
 │   └── app.py
-│
-├── data/
-│   └── banking PDFs and TXT files
-│
-├── chroma_db/
-│
-├── .env
+├── .env.example
 ├── .gitignore
+├── .python-version
+├── image.png
 ├── README.md
-└── render.yaml
+├── render.yaml
+└── requirements.txt
 ```
 
----
+## Local Setup
 
-# How RAG Works
+Use Python 3.11 for the backend.
 
-```text
-PDF Documents
-      ↓
-Document Ingestion
-      ↓
-Text Chunking
-      ↓
-Embedding Generation
-      ↓
-ChromaDB Vector Storage
-      ↓
-Semantic Retrieval
-      ↓
-Gemini LLM
-      ↓
-Final AI Response
+```powershell
+git clone https://github.com/Anuragsharma31-2003/projectbanking.git
+cd projectbanking
+
+py -3.11 -m venv venv
+.\venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install -r backend\requirements.txt
 ```
 
----
-
-# Setup Instructions
-
-## 1. Clone Project
-
-```bash
-git clone <your-repository-url>
-cd banking-chatbot
-```
-
----
-
-## 2. Create Virtual Environment
-
-```bash
-python -m venv venv-py312
-```
-
-Activate virtual environment:
-
-### Windows
-
-```bash
-venv-py312\Scripts\activate
-```
-
----
-
-## 3. Install Dependencies
-
-```bash
-pip install -r backend/requirements.txt
-```
-
----
-
-# Environment Variables
-
-Create `.env` in root directory:
-
-```env
-GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-1.5-flash
-```
-
----
-
-# Add Banking Documents
-
-Place all PDFs/TXT files inside:
-
-```text
-data/
-```
-
----
-
-# Ingest Documents Into ChromaDB
-
-Run:
-
-```bash
-python -m backend.ingest
-```
-
----
-
-# Run Backend Server
-
-```bash
-python -m uvicorn backend.main:app --reload
-```
-
-Backend runs on:
-
-```text
-http://localhost:8000
-```
-
-Swagger Docs:
-
-```text
-http://localhost:8000/docs
-```
-
----
-
-# Run Streamlit Frontend
-
-Open new terminal:
-
-```bash
-venv\Scripts\activate
-```
-
-Run frontend:
-
-```bash
-python -m streamlit run frontend/app.py
-```
-
----
-
-# API Endpoints
-
-## Health Check
-
-```http
-GET /health
-```
-
-## Chat Endpoint
-
-```http
-POST /chat
-```
-
-## Upload Document
-
-```http
-POST /upload
-```
-
----
-
-# Example Questions
-
-- What is KYC?
-- What documents are required for a home loan?
-- What are credit card late payment charges?
-- Explain RBI banking regulations.
-- How does mobile banking work?
-- What is the minimum balance requirement?
-
----
-
-# Author
-
-AI-powered Banking Support Chatbot using RAG Architecture.
-
-
-Create `.env` from `.env.example` and add your Gemini API key:
+Create `.env` from `.env.example`:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
 ```
 
-Ingest the documents:
+Ingest documents:
 
 ```powershell
 python -m backend.ingest
@@ -268,33 +126,55 @@ Run the frontend in another terminal:
 streamlit run frontend\app.py
 ```
 
-## Deployment Notes
+Local URLs:
 
-Do not commit `.env`, `venv/`, `venv-py312/`, or `chroma_db/`. Configure `GEMINI_API_KEY` as an environment variable on your hosting provider.
+- Frontend: http://localhost:8501
+- Backend: http://localhost:8000
+- API Docs: http://localhost:8000/docs
 
-### Render Backend
+## API Endpoints
 
-This repository includes `render.yaml` for deploying the FastAPI backend on Render.
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/health` | Backend status and vector document count |
+| `POST` | `/chat` | Non-streaming chat response |
+| `POST` | `/chat/stream` | Streaming chat response |
+| `POST` | `/upload` | Upload and ingest a document |
+| `DELETE` | `/session/{session_id}` | Clear a chat session |
+
+## Deployment
+
+### Backend On Render
+
+The backend is deployed on Render using `render.yaml`.
+
+Render service:
+
+```text
+https://projectbanking-api.onrender.com
+```
 
 Required Render environment variable:
 
-https://projectbanking-api.onrender.com
-https://projectbanking-api.onrender.com/health
-
 ```env
-GEMINI_API_KEY=your_real_gemini_key
+GEMINI_API_KEY=your_real_gemini_api_key
 ```
 
-After deploy, open:
+Render automatically uses:
 
 ```text
-https://your-render-service.onrender.com/health
-https://your-render-service.onrender.com/docs
+Start command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+Health path: /health
+Python version: 3.11.9
 ```
 
-### Streamlit Frontend
+### Frontend On Streamlit Community Cloud
 
-Deploy `frontend/app.py` on Streamlit Community Cloud and point it at the Render backend.
+The frontend is deployed on Streamlit Community Cloud:
+
+```text
+https://projectbankinganurag.streamlit.app/
+```
 
 Streamlit app settings:
 
@@ -305,10 +185,29 @@ Main file path: frontend/app.py
 Python version: 3.12
 ```
 
-Streamlit secrets:
+Streamlit secret:
 
 ```toml
-BACKEND_URL = "https://your-render-service.onrender.com"
+BACKEND_URL = "https://projectbanking-api.onrender.com"
 ```
 
-Only set `GEMINI_API_KEY` on Render. The Streamlit frontend should only know the backend URL.
+Only the backend needs `GEMINI_API_KEY`. The frontend should only know `BACKEND_URL`.
+
+## Example Questions
+
+- What are the credit card eligibility criteria?
+- What documents are required for a home loan?
+- What are the credit card late payment charges?
+- Explain RBI banking regulations.
+- How do I apply for a personal loan?
+
+## Security Notes
+
+- Do not commit `.env`.
+- Store `GEMINI_API_KEY` only in Render environment variables.
+- If an API key is ever exposed, rotate it immediately.
+- `chroma_db/` is ignored because it is generated locally during ingestion.
+
+## Author
+
+Built by Anurag Sharma as a banking-focused RAG chatbot project.

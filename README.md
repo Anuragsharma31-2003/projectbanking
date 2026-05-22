@@ -11,6 +11,9 @@ The chatbot answers banking-related queries using real banking documents such as
 
 ---
 
+![Project Screenshot](image.png)
+
+
 # Features
 
 - RAG (Retrieval-Augmented Generation)

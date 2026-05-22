@@ -1,0 +1,36 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+venv-*/
+ENV/
+env/
+
+# Local model/vector caches
+chroma_db/
+.chroma/
+.cache/
+
+# Logs and runtime files
+*.log
+*.tmp
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Streamlit local config
+.streamlit/secrets.toml

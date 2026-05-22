@@ -1,0 +1,26 @@
+# ── Web framework ─────────────────────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+
+# ── LLM & embeddings ──────────────────────────────────────────────────────────
+google-generativeai==0.7.2
+sentence-transformers==3.0.1
+torch==2.3.1          # CPU-only install via: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# ── Vector DB ─────────────────────────────────────────────────────────────────
+chromadb==0.5.3
+
+# ── RAG utilities ─────────────────────────────────────────────────────────────
+langchain==0.2.6
+langchain-community==0.2.6
+pypdf==4.2.0
+
+# ── Env & validation ──────────────────────────────────────────────────────────
+python-dotenv==1.0.1
+pydantic==2.7.4
+
+# ── Frontend (Streamlit UI) ───────────────────────────────────────────────────
+streamlit==1.36.0
+requests==2.32.3
+sseclient-py==1.8.0

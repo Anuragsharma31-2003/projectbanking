@@ -302,6 +302,7 @@ Streamlit app settings:
 Repository: Anuragsharma31-2003/projectbanking
 Branch: main
 Main file path: frontend/app.py
+Python version: 3.12
 ```
 
 Streamlit secrets:
